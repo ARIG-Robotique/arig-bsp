@@ -1,0 +1,8 @@
+# Fichier de build / cache finaux
+build/bsp-arig-*/cache/
+build/bsp-arig-*/tmp/
+build/bsp-arig-*/*.log
+
+# Cache global
+build/cache/
+build/external-src/
