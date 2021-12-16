@@ -10,7 +10,7 @@ mkdir -p ${EXTERNAL_SRC}
 ################################
 cd ${BUILD_DIR}/${EXTERNAL_SRC}
 if [ ! -d poky ] ; then
-  echo "Clone Poky hardknott"
+  echo "Clone Poky ${POKY_VERSION}"
   git clone -b ${POKY_VERSION} git://git.yoctoproject.org/poky.git
 fi
 
