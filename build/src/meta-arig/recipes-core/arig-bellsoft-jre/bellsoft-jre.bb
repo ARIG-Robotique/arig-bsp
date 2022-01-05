@@ -7,14 +7,6 @@
 # https://download.bell-sw.com/java/11.0.13+8/bellsoft-jre11.0.13+8-linux-aarch64.tar.gz 
 # https://download.bell-sw.com/java/13.0.2+9/bellsoft-jre13.0.2+9-linux-aarch64.tar.gz
 
-SUMMARY = "Bellsoft Liberica Java Runtime (JRE) binaries"
-LICENSE = "GPLv2"
-
-BELLSOFT_VERSION = "11.0.13"
-BELLSOFT_PATCH_VERSION = "8"
-
-BELLSOFT_FULL_VERSION := "${BELLSOFT_VERSION}+${BELLSOFT_PATCH_VERSION}"
-
 def get_suffix(d):
     target_arch = d.getVar('TARGET_ARCH', True)
     target_fpu = d.getVar('TARGET_FPU', True)
@@ -83,23 +75,38 @@ def get_sha256(version, suffix):
     raise bb.parse.SkipPackage("Unsupported version '%s' or suffix '%s' to get sh256sum" % version, suffix)
 
 
+BELLSOFT_VERSION ?= "13.0.2"
+BELLSOFT_PATCH_VERSION ?= "9"
+BELLSOFT_FULL_VERSION := "${BELLSOFT_VERSION}+${BELLSOFT_PATCH_VERSION}"
+
 BELLSOFT_SUFFIX = "${@get_suffix(d)}"
 BELLSOFT_DOWNLOAD_URL = "https://download.bell-sw.com/java/${BELLSOFT_FULL_VERSION}/bellsoft-jre${BELLSOFT_FULL_VERSION}-linux-${BELLSOFT_SUFFIX}.tar.gz"
 BELLSOFT_DOWNLOAD_URL_MD5 = "${@get_md5(BELLSOFT_FULL_VERSION, BELLSOFT_SUFFIX)}"
 BELLSOFT_DOWNLOAD_URL_SHA256 = "${@get_sha256(BELLSOFT_FULL_VERSION, BELLSOFT_SUFFIX)}"
+
+SUMMARY = "Bellsoft Liberica Java Runtime (JRE) binaries"
+
+LICENSE = "CLOSED"
 
 SRC_URI = "${BELLSOFT_DOWNLOAD_URL}"
 SRC_URI[md5sum] = "${BELLSOFT_DOWNLOAD_URL_MD5}"
 SRC_URI[sha256sum] = "${BELLSOFT_DOWNLOAD_URL_SHA256}"
 
 S = "${WORKDIR}"
+PV = "${BELLSOFT_VERSION}"
+PR = "r${BELLSOFT_PATCH_VERSION}"
 
 do_install () {
   install -d -m 0755 ${D}${datadir}/bellsoft-jre-${BELLSOFT_FULL_VERSION}_${BELLSOFT_SUFFIX}
   cp -a ${S}/jre-${BELLSOFT_VERSION}/* ${D}${datadir}/bellsoft-jre-${BELLSOFT_FULL_VERSION}_${BELLSOFT_SUFFIX}
+  chown -R root:root ${D}${datadir}/bellsoft-jre-${BELLSOFT_FULL_VERSION}_${BELLSOFT_SUFFIX}
+  
   install -d -m 0755 ${D}${bindir}
   ln -sf ${datadir}/bellsoft-jre-${BELLSOFT_FULL_VERSION}_${BELLSOFT_SUFFIX}/bin/java ${D}${bindir}/java
 }
+
+# This provide some of shared library, but must be used only by this java virtual machine
+EXCLUDE_FROM_SHLIBS = "1"
 
 # All the files are provided in a binaray package, and keeping all the
 # files in a single package causes packaging QA errors and warnings.
