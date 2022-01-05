@@ -52,6 +52,7 @@ for bsp in bsp-arig-nerell bsp-arig-odin ; do
   source ${EXTERNAL_SRC}/poky/oe-init-build-env ${bsp}
   bitbake-layers show-layers
   bitbake arig-image-robot
+  bitbake meta-toolchain-qt5
 done
 
 # -------------------------------------------------------- #
