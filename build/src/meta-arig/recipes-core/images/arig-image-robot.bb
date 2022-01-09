@@ -5,6 +5,7 @@ inherit core-image
 SPLASH = "psplash-arig"
 
 ENABLE_I2C = "1"
+GPU_MEM = "128"
 
 # Disable rainbow after gpu firmware is loaded
 #DISABLE_SPLASH = "1"
