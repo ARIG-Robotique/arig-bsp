@@ -17,6 +17,14 @@ fi
 cd ${BUILD_DIR}/${EXTERNAL_SRC}/poky
 git checkout yocto-${YOCTO_VERSION}
 
+# Meta openembedded #
+#####################
+cd ${BUILD_DIR}/${EXTERNAL_SRC}
+if [ ! -d meta-openembedded ] ; then
+  echo "Clone meta Open Embedded ${POKY_VERSION}"
+  git clone -b ${POKY_VERSION} git://github.com/openembedded/meta-openembedded.git
+fi
+
 # Meta Raspberry PI #
 #####################
 cd ${BUILD_DIR}/${EXTERNAL_SRC}
