@@ -4,19 +4,29 @@ inherit core-image
 
 SPLASH = "psplash-arig"
 
-ENABLE_I2C = "1"
-GPU_MEM = "128"
+# Raspberry Pi specific #
+# --------------------- #
 
 # Disable rainbow after gpu firmware is loaded
 #DISABLE_SPLASH = "1"
+
+# Core frequency
+CORE_FREQ = "500"
+
+GPU_MEM = "128"
+
+ENABLE_I2C = "1"
+ENABLE_UART = "1"
+
+RPI_EXTRA_CONFIG = "core_freq_min=500"
+
+# ---------------------------------- #
 
 IMAGE_FEATURES += "splash"
 IMAGE_FEATURES += "ssh-server-dropbear"
 
 IMAGE_INSTALL_append = " i2c-tools"
 IMAGE_INSTALL_append = " arig-bellsoft-jre"
-
-#KERNEL_MODULE_AUTOLOAD:rpi += "i2c-dev i2c-bcm2708"
 
 # Add features
 DISTRO_FEATURES += "wifi"
