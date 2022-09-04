@@ -1,1 +1,3 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
+
 SYSTEMD_AUTO_ENABLE = "enable"
